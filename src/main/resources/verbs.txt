@@ -15,7 +15,8 @@ customize
 deliver
 deploy
 develop
-dinintermediate disseminate
+disintermediate
+disseminate
 drive
 embrace
 e-enable
