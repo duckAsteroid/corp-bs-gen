@@ -5,19 +5,17 @@ package org.asteroid.duck.corp.bs;
 
 import org.asteroid.duck.corp.bs.input.StreamWordSource;
 import org.asteroid.duck.corp.bs.input.WordSource;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@SpringBootApplication
+@ApplicationScoped
 public class App {
-    @Bean
+    @Produces
     public static Map<WordType, WordSource> createWordSources() {
         return WordType.inOrder()
                 .collect(Collectors.toMap(
@@ -30,9 +28,5 @@ public class App {
         InputStream stream = App.class.getResourceAsStream(resourceName);
         if (stream == null) throw new RuntimeException("No such resource "+resourceName);
         return StreamWordSource.wrapInputStream(stream);
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
     }
 }

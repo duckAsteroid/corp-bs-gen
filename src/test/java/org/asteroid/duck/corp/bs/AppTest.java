@@ -3,39 +3,24 @@
  */
 package org.asteroid.duck.corp.bs;
 
+import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import javax.ws.rs.core.MediaType;
+
+import static io.restassured.RestAssured.given;
 
 
-@AutoConfigureMockMvc
-@ContextConfiguration(classes = {Controller.class, App.class})
-@WebMvcTest
-class AppTest {
-    @Autowired
-    public MockMvc mockMvc;
+@QuarkusTest
+public class AppTest {
 
     @Test
     void appHasAGreeting() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/rest/bs")
-                .accept(MediaType.TEXT_PLAIN))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String message = result.getResponse().getContentAsString();
-        assertNotNull(message);
-        System.out.println(message);
+        given()
+                .when()
+                    .accept(MediaType.TEXT_PLAIN)
+                    .get("/rest/bs")
+                .then()
+                    .statusCode(200).log().body();
     }
 }
